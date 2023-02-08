@@ -1,6 +1,5 @@
-package com.dh.ecommerce.model.dto;
+package com.dh.ecommerce.entityXmodel.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +17,7 @@ import java.time.LocalTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProdutoDTO {
     private String nome;
+    private String sku;
     private Double valor;
     //@JsonIgnore
     private String lote;
