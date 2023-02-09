@@ -3,6 +3,7 @@ package com.dh.ecommerce.controller;
 import com.dh.ecommerce.entityXmodel.Produto;
 import com.dh.ecommerce.entityXmodel.dto.ProdutoDTO;
 import com.dh.ecommerce.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class ProdutoController {
         return "Batendo no GET ------- Numero Pedido: " + numPedido + " -- Nome Usuario: " + nomeUsuario;
     }
     @GetMapping("/buscar2")
-    public String buscar2(@RequestParam("numPedido") int numPedido,
+    public String buscar2(@RequestParam(value = "numPedido", required = false) int numPedido,
                           @RequestParam("nomeUsuario") String nomeUsuario) {
 
         return "Batendo no GET ------- Numero Pedido: " + numPedido + " -- Nome Usuario: " + nomeUsuario;
@@ -42,12 +43,18 @@ public class ProdutoController {
     }
 
 
+    @GetMapping("/buscarSKU/{numSKU}/{nome}")
+    public ResponseEntity buscarSKUAndNome(@PathVariable String numSKU, @PathVariable String nome){
+        return service.buscarPorSkuAndNome(numSKU,nome);
+    }
+
+
 //    @PostMapping()
 //    public Produto salvar(@RequestBody Produto produto) {
 //        return service.salvar(produto);
 //    }
     @PostMapping
-    public ResponseEntity salvar(@RequestBody Produto produto){
+    public ResponseEntity salvar(@RequestBody @Valid Produto produto){
         return service.salvar(produto);
     }
 
@@ -68,8 +75,8 @@ public class ProdutoController {
 
 
     @PatchMapping()
-    public String alteracaoParcial(){
-        return "Entrou no patch";
+    public ResponseEntity alteracaoParcial(@RequestBody @Valid ProdutoDTO produtoDTO){
+        return service.alteracaoParcial(produtoDTO);
     }
 
 

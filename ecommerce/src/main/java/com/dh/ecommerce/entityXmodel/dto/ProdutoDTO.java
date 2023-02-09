@@ -1,6 +1,9 @@
 package com.dh.ecommerce.entityXmodel.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +20,9 @@ import java.time.LocalTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProdutoDTO {
     private String nome;
+
+    @NotBlank
+    @Size(min = 5, max = 15) // essas validacoes sao direto com o controler, tem que colocar o @Valid pra chamar a validacao
     private String sku;
     private Double valor;
     //@JsonIgnore

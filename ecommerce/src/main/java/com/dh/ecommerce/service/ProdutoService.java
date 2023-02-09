@@ -1,5 +1,6 @@
 package com.dh.ecommerce.service;
 
+import com.dh.ecommerce.entityXmodel.Pedido;
 import com.dh.ecommerce.repositoryXdao.ProdutoRepository;
 import com.dh.ecommerce.repositoryXdao.dao.ProdutoDAO;
 import com.dh.ecommerce.entityXmodel.Produto;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,4 +76,66 @@ public class ProdutoService {
 
         return new ResponseEntity(produtoDTO,HttpStatus.OK);
     }
+
+    public ResponseEntity buscarPorSkuAndNome(String numSKU, String nome) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        Optional<Produto> produto = repository.findByskuAndNome(numSKU, nome);
+        if(produto.isEmpty()){
+            return new ResponseEntity("Produto não encontrado", HttpStatus.BAD_REQUEST);
+        }
+
+        ProdutoDTO produtoDTO = mapper.convertValue(produto.get(), ProdutoDTO.class);
+
+        return new ResponseEntity(produtoDTO,HttpStatus.OK);
+    }
+
+
+
+    public ResponseEntity buscarPorSkuAndNomeHQL(String numSKU, String nome) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        Optional<Produto> produto = repository.buscaPorSkuAndNome(numSKU, nome);
+
+//        Pedido pedido = new Pedido();
+//        pedido.setProduto(Arrays.asList(produto.get()));
+
+        if(produto.isEmpty()){
+            return new ResponseEntity("Produto não encontrado", HttpStatus.BAD_REQUEST);
+        }
+
+        ProdutoDTO produtoDTO = mapper.convertValue(produto.get(), ProdutoDTO.class);
+
+        return new ResponseEntity(produtoDTO,HttpStatus.OK);
+    }
+
+
+    public ResponseEntity alteracaoParcial(ProdutoDTO produtoDTO){
+        ObjectMapper mapper = new ObjectMapper();
+
+        Optional<Produto> produtoOptional = repository.findBysku(produtoDTO.getSku());
+        if(produtoOptional.isEmpty()){
+            return new ResponseEntity("O produto informado não existe", HttpStatus.NOT_FOUND);
+        }
+        Produto produto = produtoOptional.get();
+        if(produtoDTO.getNome() != null){
+            produto.setNome(produtoDTO.getNome());
+        }
+        if (produtoDTO.getCategoria() != null) {
+            produto.setCategoria(produtoDTO.getCategoria());
+        }
+        if (produtoDTO.getLote() != null) {
+            produto.setLote(produtoDTO.getLote());
+        }
+        if (produtoDTO.getFornecedor() != null) {
+            produto.setFornecedor(produtoDTO.getFornecedor());
+        }
+        if (produtoDTO.getValor() != null) {
+            produto.setValor(produtoDTO.getValor());
+        }
+        ProdutoDTO produtoAlterado = mapper.convertValue(repository.save(produto), ProdutoDTO.class);
+
+        return new ResponseEntity(produtoAlterado, HttpStatus.OK);
+    }
+
 }
