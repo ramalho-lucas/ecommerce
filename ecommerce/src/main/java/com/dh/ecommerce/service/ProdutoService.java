@@ -1,6 +1,7 @@
 package com.dh.ecommerce.service;
 
 import com.dh.ecommerce.entityXmodel.Pedido;
+import com.dh.ecommerce.exception.ResourceNotFoundException;
 import com.dh.ecommerce.repositoryXdao.ProdutoRepository;
 import com.dh.ecommerce.repositoryXdao.dao.ProdutoDAO;
 import com.dh.ecommerce.entityXmodel.Produto;
@@ -64,6 +65,9 @@ public class ProdutoService {
         return new ResponseEntity("Excluido com sucesso", HttpStatus.OK);
     }
 
+
+
+
     public ResponseEntity buscarPorSku(String numSKU) {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -77,6 +81,20 @@ public class ProdutoService {
         return new ResponseEntity(produtoDTO,HttpStatus.OK);
     }
 
+//    public ResponseEntity buscarPorSku(String numSKU) throws ResourceNotFoundException {
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        Optional<Produto> produto = repository.findBysku(numSKU);
+//        if(produto.isEmpty()){
+//            throw new ResourceNotFoundException("Produto não encontrado");
+//        }
+//
+//        ProdutoDTO produtoDTO = mapper.convertValue(produto.get(), ProdutoDTO.class);
+//
+//        return new ResponseEntity(produtoDTO,HttpStatus.OK);
+//    }
+
+
     public ResponseEntity buscarPorSkuAndNome(String numSKU, String nome) {
         ObjectMapper mapper = new ObjectMapper();
 
@@ -89,7 +107,6 @@ public class ProdutoService {
 
         return new ResponseEntity(produtoDTO,HttpStatus.OK);
     }
-
 
 
     public ResponseEntity buscarPorSkuAndNomeHQL(String numSKU, String nome) {

@@ -2,6 +2,7 @@ package com.dh.ecommerce.controller;
 
 import com.dh.ecommerce.entityXmodel.Produto;
 import com.dh.ecommerce.entityXmodel.dto.ProdutoDTO;
+import com.dh.ecommerce.exception.ResourceNotFoundException;
 import com.dh.ecommerce.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,6 @@ public class ProdutoController {
     public String alteracaoTotal() {
         return "Entrou no put";
     }
-
 
 
     @PatchMapping()
