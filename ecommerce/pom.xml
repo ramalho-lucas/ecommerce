@@ -47,6 +47,12 @@
 			<version>2.14.2</version>
 		</dependency>
 
+		<!-- spring security-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 		<!-- Jpa -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
